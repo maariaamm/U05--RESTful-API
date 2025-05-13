@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const port = process.env.PORT || 3000;
 const User = require('../models/Usermodel');  
 require('dotenv').config();  
 const bcrypt = require('bcryptjs'); 
