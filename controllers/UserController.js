@@ -72,7 +72,7 @@ const loginUser = async (req, res) => {
         res.status(500).json({ message: 'Something went wrong, try again later!', error });
     }
 };
-
+        
 module.exports = {
     registerUser,
     loginUser,
