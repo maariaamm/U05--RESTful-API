@@ -16,7 +16,7 @@ Users are able to **create**, **read**, **update** and **delete** car ad posts.
 
 ---
 
-## Visit the deployed version - [CarSales]()
+## Visit the deployed version - [CarSales](https://u05-restful-api-fl36.onrender.com)
 
 
 
@@ -78,11 +78,11 @@ Users are able to **create**, **read**, **update** and **delete** car ad posts.
 
 ---
 
-# cURL Examples
+## cURL Examples
 
 Below are examples of how to use `curl` to interact with the car sales API. 
 
-## 1. Register a User (POST `/api/users/register`)
+### 1. Register a User (POST `/api/users/register`)
 
 To register a new user, send the following request: (you can skip this step and use the credentials below to log in)
 ```
@@ -96,7 +96,7 @@ curl -X POST http://localhost:3000/api/users/register \
   }'
 ```
 
-## 2. Log in (POST /api/users/login)
+### 2. Log in (POST /api/users/login)
 ```
 curl -X POST http://localhost:3000/api/users/login \
   -H "Content-Type: application/json" \
@@ -105,17 +105,17 @@ curl -X POST http://localhost:3000/api/users/login \
     "password": "securepassword"
   }'
 ```
-## 3. Get All Car Ads (GET /api/carAds)
+### 3. Get All Car Ads (GET /api/carAds)
 ```
 curl -X GET http://localhost:3000/api/carAds
 ```
 
-## 4. Get a Specific Car Ad (GET /api/carAds/:id) (replace :id with the actual ID)
+### 4. Get a Specific Car Ad (GET /api/carAds/:id) (replace :id with the actual ID)
 ```
 curl -X GET http://localhost:3000/api/carAds/68229e64829ef4b28cf2e5e9
 ```
 
-## 5. Create a New Car Ad (POST /api/carAds)
+### 5. Create a New Car Ad (POST /api/carAds)
 To create a new car ad, send the following JSON data:
 ```
 curl -X POST http://localhost:3000/api/carAds \
@@ -130,7 +130,7 @@ curl -X POST http://localhost:3000/api/carAds \
   }'
 ```
 
-## 6. Update a Car Ad (PUT /api/carAds/:id) To update a car ad (replace :id with the actual ID):
+### 6. Update a Car Ad (PUT /api/carAds/:id) To update a car ad (replace :id with the actual ID):
 ```
 curl -X PUT http://localhost:3000/api/carAds/6822959de36ef24d07080f04 \
   -H "Content-Type: application/json" \
@@ -139,7 +139,7 @@ curl -X PUT http://localhost:3000/api/carAds/6822959de36ef24d07080f04 \
   }'
 ```
 
-## 7. Delete a Car Ad (DELETE /api/carAds/:id)
+### 7. Delete a Car Ad (DELETE /api/carAds/:id)
 (To delete a car ad, use its ID:)
 ```
 curl -X DELETE http://localhost:3000/api/carAds/6822959de36ef24d07080f04
