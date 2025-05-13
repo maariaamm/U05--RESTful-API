@@ -5,9 +5,8 @@ const UserRoutes = require('./routes/UserRoutes');
 const CarAdRoutes = require('./routes/CarAdRoutes');
 
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
 })
+
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Error connecting to MongoDB:', err));
 
