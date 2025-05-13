@@ -8,7 +8,7 @@ const getCarAds = async (req, res) => {
         const carAds = await CarAd.find().populate('user');  
         res.status(200).json(carAds);
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong, try again later!', error });
+        res.status(500).json({ message: 'Something went wrong, please try again later!', error });
     }
 };
 
@@ -21,7 +21,7 @@ const getCarAdById = async (req, res) => {
         }
         res.json(carAd);
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong, try again later!', error });
+        res.status(500).json({ message: 'Something went wrong, please try again later!', error });
     }
 };
 
@@ -32,7 +32,7 @@ const createCarAd = async (req, res) => {
         const savedAd = await newCarAd.save();
         res.status(201).json(savedAd);
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong while creating ad.. try again later!', error });
+        res.status(500).json({ message: 'Something went wrong while creating ad.. please try again later!', error });
     }
 };
 
@@ -64,7 +64,7 @@ const deleteCarAd = async (req, res) => {
         }
         res.json({ message: 'Car ad deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong, try again later!', error });
+        res.status(500).json({ message: 'Something went wrong, please try again later!', error });
     }
 };
 
