@@ -22,7 +22,7 @@ router.get('/', CarAdController.getCarAds);
 
 router.get('/:id', CarAdController.getCarAdById);
 
-router.post('/', CarAdController.createCarAd);
+router.post('/', upload.single('imageUrl'), CarAdController.createCarAd);
 
 router.put('/:id', CarAdController.updateCarAd);
 

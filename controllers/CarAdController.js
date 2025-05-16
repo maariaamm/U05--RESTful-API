@@ -29,18 +29,26 @@ const getCarAdById = async (req, res) => {
 // Create new Car Ad
 const createCarAd = async (req, res) => {
     try {
-        const carAdData = {
-            ...req.body,
-            image: req.file ? req.file.filename : null
-        };
-
-        const newCarAd = new CarAd(carAdData);
-        const savedAd = await newCarAd.save();
-        res.status(201).json(savedAd);
+        const imageUrl = req.file
+        ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+        : req.body.imageUrl || null;
+      
+      const carAdData = {
+        ...req.body,
+        imageUrl,
+      };
+  
+      const newCarAd = new CarAd(carAdData);
+      const savedAd = await newCarAd.save();
+  
+      res.status(201).json(savedAd);
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong while creating ad.. please try again later!', error });
+      res.status(500).json({
+        message: 'Something went wrong while creating ad.. please try again later!',
+        error
+      });
     }
-};
+  };
 
 // Update Car Ad
 const updateCarAd = async (req, res) => {

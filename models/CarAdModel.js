@@ -29,8 +29,9 @@ const CarAdModelschema = new mongoose.Schema({
     },
 
     imageUrl: {
-        type: [String], required: true
-    },
+        type: String,
+        required: false
+      },
   
 
     user: {
