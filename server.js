@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 const express = require('express');
+const multer = require('multer');
+const cors = require('cors');
 const UserRoutes = require('./routes/UserRoutes');
 const CarAdRoutes = require('./routes/CarAdRoutes');
-const cors = require('cors');
+
 
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -17,6 +19,19 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname);
+    }
+  });
+  const upload = multer({ storage });
+  
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get("/", (req, res) => {
     res.send("User API is live!");

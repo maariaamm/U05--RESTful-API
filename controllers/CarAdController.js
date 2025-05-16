@@ -2,6 +2,7 @@ const CarAd = require('../models/CarAdModel');
 const User = require('../models/Usermodel');
 const mongoose = require('mongoose');
 
+
 // Fetch all Car Ads
 const getCarAds = async (req, res) => {
     try {
@@ -28,7 +29,12 @@ const getCarAdById = async (req, res) => {
 // Create new Car Ad
 const createCarAd = async (req, res) => {
     try {
-        const newCarAd = new CarAd(req.body);
+        const carAdData = {
+            ...req.body,
+            image: req.file ? req.file.filename : null
+        };
+
+        const newCarAd = new CarAd(carAdData);
         const savedAd = await newCarAd.save();
         res.status(201).json(savedAd);
     } catch (error) {
