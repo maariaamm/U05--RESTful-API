@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const CarAdController = require('../controllers/CarAdController');
 
+
 // Endpoints
 
 router.get('/', CarAdController.getCarAds);

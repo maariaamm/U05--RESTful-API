@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const UserRoutes = require('./routes/UserRoutes');
 const CarAdRoutes = require('./routes/CarAdRoutes');
+const cors = require('cors');
+
 
 mongoose.connect(process.env.MONGODB_URI, {
 })
@@ -13,7 +15,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json()); 
+app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("User API is live!");

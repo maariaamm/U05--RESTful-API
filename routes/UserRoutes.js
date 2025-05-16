@@ -4,6 +4,7 @@ const User = require('../models/Usermodel');
 const { registerUser, loginUser } = require('../controllers/UserController');
 
 
+
 // Endpoint 
 router.post('/register', registerUser);
 
