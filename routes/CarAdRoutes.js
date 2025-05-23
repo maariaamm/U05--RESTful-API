@@ -2,30 +2,27 @@ const express = require('express');
 const router = express.Router();
 const CarAdController = require('../controllers/CarAdController');
 const multer = require('multer');
-const path = require('path');
+const authenticateToken = require('../middleware/authMiddleware');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'uploads/'); 
+        cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-      const uniqueName = Date.now() + '-' + file.originalname;
-      cb(null, uniqueName);
+        const uniqueName = Date.now() + '-' + file.originalname;
+        cb(null, uniqueName);
     }
-  });
-  
-  const upload = multer({ storage });
+});
 
-// Endpoints
+const upload = multer({ storage });
 
+// Public
 router.get('/', CarAdController.getCarAds);
-
 router.get('/:id', CarAdController.getCarAdById);
 
-router.post('/', upload.single('imageUrl'), CarAdController.createCarAd);
-
-router.put('/:id', CarAdController.updateCarAd);
-
-router.delete('/:id', CarAdController.deleteCarAd);
+// Protected
+router.post('/', authenticateToken, upload.single('imageUrl'), CarAdController.createCarAd);
+router.put('/:id', authenticateToken, CarAdController.updateCarAd);
+router.delete('/:id', authenticateToken, CarAdController.deleteCarAd);
 
 module.exports = router;

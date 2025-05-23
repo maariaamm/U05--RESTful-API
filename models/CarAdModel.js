@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 
 const CarAdModelschema = new mongoose.Schema({
 
-  
+    brand: {
+        type: String, required: true
+    },
     description: {
         type: String, required: true
     },

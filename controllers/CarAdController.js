@@ -2,14 +2,13 @@ const CarAd = require('../models/CarAdModel');
 const User = require('../models/Usermodel');
 const mongoose = require('mongoose');
 
-
 // Fetch all Car Ads
 const getCarAds = async (req, res) => {
     try {
-        const carAds = await CarAd.find().populate('user');  
+        const carAds = await CarAd.find().populate('user');
         res.status(200).json(carAds);
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong, please try again later!', error });
+        res.status(500).json({ message: 'Something went wrong', error });
     }
 };
 
@@ -17,51 +16,50 @@ const getCarAds = async (req, res) => {
 const getCarAdById = async (req, res) => {
     try {
         const carAd = await CarAd.findById(req.params.id).populate('user');
-        if (!carAd) {
-            return res.status(404).json({ message: 'Car ad not found' });
-        }
+        if (!carAd) return res.status(404).json({ message: 'Car ad not found' });
         res.json(carAd);
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong, please try again later!', error });
+        res.status(500).json({ message: 'Something went wrong', error });
     }
 };
 
-// Create new Car Ad
+// Create new Car Ad (protected)
 const createCarAd = async (req, res) => {
     try {
         const imageUrl = req.file
-        ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
-        : req.body.imageUrl || null;
-      
-      const carAdData = {
-        ...req.body,
-        imageUrl,
-      };
-  
-      const newCarAd = new CarAd(carAdData);
-      const savedAd = await newCarAd.save();
-  
-      res.status(201).json(savedAd);
-    } catch (error) {
-      res.status(500).json({
-        message: 'Something went wrong while creating ad.. please try again later!',
-        error
-      });
-    }
-  };
+            ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+            : req.body.imageUrl || null;
 
-// Update Car Ad
+        const carAdData = {
+            ...req.body,
+            imageUrl,
+            user: req.user.id
+        };
+
+        const newCarAd = new CarAd(carAdData);
+        const savedAd = await newCarAd.save();
+        res.status(201).json(savedAd);
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating ad', error });
+    }
+};
+
+// Update Car Ad (protected)
 const updateCarAd = async (req, res) => {
     try {
+        const carAd = await CarAd.findById(req.params.id);
+        if (!carAd) return res.status(404).json({ message: 'Car ad not found' });
+
+        // Kontrollera att det är användarens egen annons
+        if (carAd.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to update this ad' });
+        }
+
         const updatedCarAd = await CarAd.findByIdAndUpdate(
             req.params.id,
             { $set: req.body },
             { new: true }
         );
-
-        if (!updatedCarAd) {
-            return res.status(404).json({ message: 'Car ad not found' });
-        }
 
         res.json(updatedCarAd);
     } catch (error) {
@@ -69,16 +67,21 @@ const updateCarAd = async (req, res) => {
     }
 };
 
-// Delete Car Ad
+// Delete Car Ad (protected)
 const deleteCarAd = async (req, res) => {
     try {
-        const deletedCarAd = await CarAd.findByIdAndDelete(req.params.id);
-        if (!deletedCarAd) {
-            return res.status(404).json({ message: 'Car ad not found' });
+        const carAd = await CarAd.findById(req.params.id);
+        if (!carAd) return res.status(404).json({ message: 'Car ad not found' });
+
+        // Kontrollera att det är användarens egen annons
+        if (carAd.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to delete this ad' });
         }
+
+        await carAd.deleteOne();
         res.json({ message: 'Car ad deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong, please try again later!', error });
+        res.status(500).json({ message: 'Something went wrong', error });
     }
 };
 
