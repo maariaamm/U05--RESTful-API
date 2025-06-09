@@ -34,7 +34,13 @@ const registerUser = async (req, res) => {
 
         res.status(201).json({
             message: 'User registered successfully!',
-            token,  
+            token,
+            user: {
+                id: savedUser._id,
+                username: savedUser.username,
+                email: savedUser.email,
+                role: savedUser.role,
+            },
         });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong, try again later!', error });
@@ -50,7 +56,6 @@ const loginUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
         
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
@@ -66,7 +71,13 @@ const loginUser = async (req, res) => {
 
         res.status(200).json({
             message: 'Login successful!',
-            token,  
+            token, 
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+            },
         });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong, try again later!', error });

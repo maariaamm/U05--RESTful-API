@@ -50,7 +50,7 @@ const updateCarAd = async (req, res) => {
         const carAd = await CarAd.findById(req.params.id);
         if (!carAd) return res.status(404).json({ message: 'Car ad not found' });
 
-        // Kontrollera att det är användarens egen annons
+
         if (carAd.user.toString() !== req.user.id) {
             return res.status(403).json({ message: 'Not authorized to update this ad' });
         }
@@ -73,7 +73,6 @@ const deleteCarAd = async (req, res) => {
         const carAd = await CarAd.findById(req.params.id);
         if (!carAd) return res.status(404).json({ message: 'Car ad not found' });
 
-        // Kontrollera att det är användarens egen annons
         if (carAd.user.toString() !== req.user.id) {
             return res.status(403).json({ message: 'Not authorized to delete this ad' });
         }
